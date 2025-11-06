@@ -32,3 +32,45 @@
   .\push_to_github.ps1
   It will prompt for the remote URL and branch and attempt to push interactively.
 
+
+## Resolving "Updates were rejected" (non-fast-forward)
+
+If `git push` is rejected with messages like:
+- "Updates were rejected because the remote contains work that you do not have locally."
+or
+- "failed to push some refs ... (fetch first)"
+
+You have a few safe options:
+
+1) Pull with rebase (recommended)
+- This updates your local branch by replaying your commits on top of remote changes.
+  git fetch origin
+  git pull --rebase origin main
+  git push origin main
+
+If rebase reports conflicts, resolve them, then:
+  git add <resolved-files>
+  git rebase --continue
+  git push origin main
+
+2) Pull with merge
+- Merges remote changes into your local branch:
+  git fetch origin
+  git pull origin main
+  # Resolve conflicts if any, commit, then:
+  git push origin main
+
+3) Force push (dangerous)
+- This overwrites the remote branch with your local branch. Avoid unless you are certain.
+  git push --force origin main
+- Only use when you understand consequences (you may erase others' commits).
+
+4) If unsure, inspect remote commits:
+  git fetch origin
+  git log --oneline origin/main --not main
+
+General notes
+- Prefer pull --rebase to create a linear history.
+- If others are collaborating, coordinate before force-pushing.
+- Use a Personal Access Token (PAT) or SSH for authentication if prompted.
+
