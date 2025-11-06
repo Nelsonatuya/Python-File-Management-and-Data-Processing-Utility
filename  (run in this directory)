@@ -1,0 +1,17 @@
+git status
+
+# stage all changes (including deletions)
+git add -A
+
+# commit with a message
+git commit -m "Update: remove unwanted files and sync changes"
+
+# fetch remote and rebase local commits on top of remote (preferred)
+git fetch origin
+git pull --rebase origin main
+
+# push to remote
+git push origin main
+
+# if push is rejected and you are sure you want to overwrite remote (use with caution):
+# git push --force-with-lease origin main
